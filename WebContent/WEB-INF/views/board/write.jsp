@@ -8,6 +8,11 @@
 	<link href="/mysite/assets/css/board.css" rel="stylesheet" type="text/css">
 	<link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 </head>
+<style type="text/css">
+	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+	#container{font-family: 'Jeju Hallasan', serif;}
+	#submit{font-family: 'Jeju Hallasan', serif;}
+</style>
 <body>
 	<div id="container">
 
@@ -18,7 +23,7 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="/mysite/board">
-					<input type = "hidden" name = "a" value="write">
+					<input type = "hidden" name = "cmd" value="write">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -36,11 +41,12 @@
 					</table>
 					<div class="bottom">
 						<a href="/mysite/board">취소</a>
-						<input type="submit" value="등록">
+						<input id="submit" type="submit" value="등록">
 					</div>
 				</form>				
 			</div>
 		</div>
+	</div>
 
 		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
 </body>

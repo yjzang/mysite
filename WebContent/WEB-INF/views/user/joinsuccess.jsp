@@ -8,6 +8,12 @@
 	<link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 	<title>Insert title here</title>
 </head>
+<style type="text/css">
+	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+	#container{font-family: 'Jeju Hallasan', serif;}
+	#fail{color:red;}
+	#submit{font-family: 'Jeju Hallasan', serif;}
+</style>
 <body>
 	
 	<div id="container">

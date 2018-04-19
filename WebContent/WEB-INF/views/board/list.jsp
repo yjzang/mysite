@@ -1,7 +1,13 @@
+<%@page import="com.javaex.dao.BoardDAO"%>
+<%@page import="javafx.scene.control.Alert"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javaex.vo.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%
+	String result = request.getParameter("result");
+	BoardDAO dao = new BoardDAO();
+	
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,7 +19,11 @@
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 	#container{font-family: 'Jeju Hallasan', serif;}
+	#fail{color:red;}
 </style>
+<% if("fail".equals(result)){%>		
+								<script type="text/javascript">alert("글쓴이만 삭제가 가능합니다.");</script> 
+								<%} %>
 <body>
 	<div id="container">
 		
@@ -46,10 +56,10 @@
 					<tr>
 						<td><%=vo.getNo() %></td>
 						<td><a href="/mysite/board?cmd=viewText&no=<%=vo.getNo()%>"> <%=vo.getTitle()%></a></td>
-						<td>곽영주</td>
+						<td><%=dao.getName(vo.getUser_no()) %></td>
 						<td><%=vo.getHit() %></td>
 						<td><%=vo.getDate() %></td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="/mysite/board?cmd=delete&no=<%=vo.getNo()%>" class="del">삭제</a></td>
 					</tr>
 <%
   			 }
@@ -68,7 +78,9 @@
 					</ul>
 				</div>				
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					
+								
+								<a href="/mysite/board?cmd=writeform" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>

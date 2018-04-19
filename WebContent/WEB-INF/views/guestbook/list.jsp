@@ -13,6 +13,8 @@
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 	#container{font-family: 'Jeju Hallasan', serif;}
+	#content{font-family: 'Jeju Hallasan', serif; line-height : 150%;}
+	#submit{font-family: 'Jeju Hallasan', serif;}
 </style>
 <body>
 
@@ -37,7 +39,7 @@
 								<td colspan=4><textarea name="content" id="content"></textarea></td>
 							</tr>
 							<tr>
-								<td colspan=4 align=right><input type="submit" VALUE=" 확인 " /></td>
+								<td colspan=4 align=right><input id="submit" type="submit" VALUE=" 확인 " /></td>
 							</tr>
 						</table>
 					</form>
@@ -58,7 +60,7 @@
 								</tr>
 								<tr>
 									<td colspan=4>
-									<%=vo.getContent()%>
+									<pre id="content"><%=vo.getContent()%></pre>
 									</td>
 								</tr>
 							</table>

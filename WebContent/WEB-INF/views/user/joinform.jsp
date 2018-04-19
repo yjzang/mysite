@@ -11,6 +11,7 @@
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 	#container{font-family: 'Jeju Hallasan', serif;}
+	.submit{font-family: 'Jeju Hallasan', serif;}
 </style>
 <body>
 
@@ -32,7 +33,7 @@
 	
 						<label class="block-label" for="email">이메일</label>
 						<input id="email" name="email" type="text" value="">
-						<input type="button" value="id 중복체크">
+						<input class="submit" type="button" value="id 중복체크">
 						
 						<label class="block-label">패스워드</label>
 						<input name="password" type="password" value="">
@@ -49,7 +50,7 @@
 							<label>서비스 약관에 동의합니다.</label>
 						</fieldset>
 						
-						<input type="submit" value="가입하기">
+						<input class="submit" type="submit" value="가입하기">
 						
 					</form>
 					

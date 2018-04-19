@@ -1,8 +1,14 @@
 <%@page import="com.javaex.vo.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	BoardVO vo = (BoardVO)request.getAttribute("vo");
 
+	
+	BoardVO vo = (BoardVO)request.getAttribute("vo");
+	int hit = Integer.parseInt(vo.getHit());
+	hit++;
+	vo.setHit(String.valueOf(hit));
+	String result = request.getParameter("result");
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,8 +21,15 @@
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 	#container{font-family: 'Jeju Hallasan', serif;}
+	#content{font-family: 'Jeju Hallasan', serif; line-height : 150%;}
 	
 </style>
+
+
+<% if("fail_mod".equals(result)){%>		
+								<script type="text/javascript">alert("글쓴이만 수정이 가능합니다.");</script> 
+								<%} %>
+
 <body>
 	<div id="container">
 
@@ -38,18 +51,18 @@
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								<%=vo.getContent() %>
+								<pre id="content"><%=vo.getContent() %></pre>
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/mysite/board">글목록</a>
+					<a href="/mysite/board?cmd=hit&hit=<%=hit%>&no=<%=vo.getNo()%>">글목록</a>
 					<a href="/mysite/board?cmd=modifyform&no=<%=vo.getNo()%>">글수정</a>
 				</div>
 			</div>
 		</div>
-
+	</div>
 		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -11,6 +11,8 @@
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 	#container{font-family: 'Jeju Hallasan', serif;}
+	#fail{color:red; line-height : 150%;}
+	#submit{font-family: 'Jeju Hallasan', serif;}
 </style>
 <body>
 
@@ -37,16 +39,16 @@
 						
 						
 								<% if("fail".equals(result)){%>		
-								<P>로그인이 실패했습니다. 다시입력해주세요</P>
+								<P id="fail">로그인에 실패했습니다. <br> 다시 입력해 주세요</P>
 								<%} %>
 	
-						<input type="submit" value="로그인">
+						<input type="submit" id="submit" value="로그인" >
 					</form>
 					
 				</div><!-- /user -->
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
-		
+	</div>
 		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
 </body>
 </html>
