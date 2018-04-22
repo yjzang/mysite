@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<% String result = request.getParameter("result"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,13 +14,20 @@
 	#fail{color:red; line-height : 150%;}
 	#submit{font-family: 'Jeju Hallasan', serif;}
 </style>
+
+<script type="text/javascript">
+		<c:if test="${param.state=='logoff'}">
+			alert("로그인이 필요한 서비스입니다.");
+		</c:if>
+</script>
+
 <body>
 
 	<div id="container">
 		
 	
-		<jsp:include page= "/WEB-INF/views/includes/header.jsp"></jsp:include>
-		<jsp:include page= "/WEB-INF/views/includes/navigation.jsp"></jsp:include>
+		<c:import url= "/WEB-INF/views/includes/header.jsp"></c:import>
+		<c:import url= "/WEB-INF/views/includes/navigation.jsp"></c:import>
 	
 		
 		<div id="wrapper">
@@ -38,9 +45,9 @@
 						<input name="password" type="password" value="">
 						
 						
-								<% if("fail".equals(result)){%>		
+								<c:if test="${param.result=='fail'}">	
 								<P id="fail">로그인에 실패했습니다. <br> 다시 입력해 주세요</P>
-								<%} %>
+								</c:if>
 	
 						<input type="submit" id="submit" value="로그인" >
 					</form>
@@ -49,6 +56,6 @@
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
 	</div>
-		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
+	<c:import url= "/WEB-INF/views/includes/footer.jsp"></c:import>
 </body>
 </html>

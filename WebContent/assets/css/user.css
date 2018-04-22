@@ -15,7 +15,7 @@ label.block-label, fieldset			{ margin:5px 0 3px 0 }
 label.block-label, fieldset legend	{ margin-bottom:3px }
 
 fieldset				{ border:none }
-input[type="submit"]	{ display:block; width:80px; margin:20px auto }
+input[type="submit"]	{ display:block; width:80px; margin:20px auto; font-family: 'Jeju Hallasan', serif; }
 
 #login-form	{
 	width:180px;

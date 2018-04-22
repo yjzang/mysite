@@ -38,6 +38,18 @@ public class BoardController extends HttpServlet {
 		if ("viewText".equals(cmd)) {
 			
 			String no = request.getParameter("no");
+			String hit = request.getParameter("hit");
+			
+			if(hit==null) {
+				
+				
+			} else {
+				int hit_int = Integer.parseInt(hit);
+				hit_int++;
+				dao.upHit(no,hit_int);
+			}
+			
+			
 			BoardVO vo = dao.getText(no);
 			request.setAttribute("vo", vo);
 			url = "/WEB-INF/views/board/view.jsp";
@@ -50,7 +62,7 @@ public class BoardController extends HttpServlet {
 			
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform";
+				url = "./user?cmd=loginform&state=logoff";
 				
 				
 			}	else {
@@ -90,25 +102,13 @@ public class BoardController extends HttpServlet {
 			resp.sendRedirect(url);
 			
 			
-		} else if("hit".equals(cmd)){
-			
-			System.out.println("uphit");
-			String no = request.getParameter("no");
-			String hit = request.getParameter("hit");
-			dao.upHit(no,hit);
-			
-			url = "/mysite/board";
-			
-			resp.sendRedirect(url);
-			
-			
 		} else if("writeform".equals(cmd)){
 			
 			
 			UserVO authVO = (UserVO) session.getAttribute("authVO");
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform";
+				url = "./user?cmd=loginform&state=logoff";
 				
 				
 			}	else {
@@ -129,20 +129,31 @@ public class BoardController extends HttpServlet {
 			UserVO authVO = (UserVO) session.getAttribute("authVO");
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform";
+				url = "./user?cmd=loginform&state=logoff";
 				
 				
 			}	else {
 				
-				String user_no = authVO.getNo();
-				dao.insert(title,content,user_no);
+				if(title.equals("")) {
 				
-				url = "/mysite/board";
+					url = "/mysite/board?cmd=writeform&result=title_empty&content="+content;
+					
+				} else if("".equals(content)) {
+					
+					url = "/mysite/board?cmd=writeform&result=content_empty&title="+title;
+					
+				} else {
+					String user_no = authVO.getNo();
+					dao.insert(title,content,user_no);
+					
+					url = "/mysite/board";
+					
+				}
 				
 			}
 					
-		
 			resp.sendRedirect(url);
+			
 			
 		} else if("delete".equals(cmd)){
 			
@@ -152,7 +163,7 @@ public class BoardController extends HttpServlet {
 			
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform";
+				url = "./user?cmd=loginform&state=logoff";
 				
 				
 			} else {
@@ -170,21 +181,36 @@ public class BoardController extends HttpServlet {
 				}
 				
 			}
+			
 			resp.sendRedirect(url);
 			
+			
 		
+		}	else if("search".equals(cmd)){
+			
+			ArrayList<BoardVO> list = null;
+			String kwd = request.getParameter("kwd");
+			list = dao.searchList(kwd);
+			if(list.size()==0) {
+				url ="/WEB-INF/views/board/list.jsp?result=search_fail";
+			} else {
+				request.setAttribute("list", list);
+				url ="/WEB-INF/views/board/list.jsp?page=1&num=0&page_p=1";
+			}
+			RequestDispatcher rd = request.getRequestDispatcher(url);
+			rd.forward(request, resp);
+			
+			 
 		}	else {
-	
 			
 			ArrayList<BoardVO> list = null;
 			list = dao.getlist();
 			
-			if(list==null) {
-				url ="/WEB-INF/views/board/list2.jsp";
-			} else {
+			if(list.size()>0) {
 				request.setAttribute("list", list);
-				url ="/WEB-INF/views/board/list.jsp";
-			}
+			} 
+			
+			url ="/WEB-INF/views/board/list.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
 			

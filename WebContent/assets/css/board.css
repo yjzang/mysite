@@ -21,6 +21,7 @@ input[type="submit"] {
 	background-color: #aaa;
 	font-weight:bold;
 	color:#fff;
+	font-family: 'Jeju Hallasan', serif;
 }
 
 input#kwd	{

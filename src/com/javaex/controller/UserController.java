@@ -54,7 +54,7 @@ public class UserController extends HttpServlet {
 			rd.forward(request, resp);
 
 		} else if (cmd.equals("loginform")) {
-
+			
 			url = "/WEB-INF/views/user/loginform.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
@@ -93,8 +93,13 @@ public class UserController extends HttpServlet {
 
 		} else if (cmd.equals("modifyform")) {
 
-			System.out.println("modifyform");
 			url = "/WEB-INF/views/user/modifyform.jsp";
+			HttpSession session = request.getSession();
+			UserVO authVO = (UserVO) session.getAttribute("authVO");
+			UserVO vo = new UserVO();
+			UserDAO dao = new UserDAO();
+			vo = dao.getUserAll(authVO.getNo());
+			request.setAttribute("vo", vo);
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
 

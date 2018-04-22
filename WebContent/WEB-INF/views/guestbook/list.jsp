@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.javaex.vo.GuestVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,8 +21,9 @@
 
 	<div id="container">
 		
-	<jsp:include page= "/WEB-INF/views/includes/header.jsp"></jsp:include>
-	<jsp:include page= "/WEB-INF/views/includes/navigation.jsp"></jsp:include>
+	<c:import url= "/WEB-INF/views/includes/header.jsp"></c:import>
+	<c:import url= "/WEB-INF/views/includes/navigation.jsp"></c:import>
+
 		
 		
 		<div id="wrapper">
@@ -45,29 +47,22 @@
 					</form>
 					<ul>
 						<li>
-<%
-						ArrayList<GuestVO> list = (ArrayList<GuestVO>)request.getAttribute("list");
-				
-						for(GuestVO vo : list){
-			
-%>
+						<c:forEach items="${list}" var="vo">
 							<table>
 								<tr>
-									<td>[<%=vo.getNo() %>]</td>
-									<td><%=vo.getName() %></td>
-									<td><%=vo.getDate() %></td>
-									<td><a href="/mysite/guest?cmd=deleteform&no=<%=vo.getNo()%>">삭제</a></td>
+									<td>${vo.no}</td>
+									<td>${vo.name}</td>
+									<td>${vo.date}</td>
+									<td><a href="/mysite/guest?cmd=deleteform&no=${vo.no}">삭제</a></td>
 								</tr>
 								<tr>
 									<td colspan=4>
-									<pre id="content"><%=vo.getContent()%></pre>
+									<pre id="content">${vo.content}</pre>
 									</td>
 								</tr>
-							</table>
+							 </table>
 							<br>
-<%
-  		 }
-%>
+						 </c:forEach>
 						</li>
 					</ul>
 					
@@ -75,7 +70,8 @@
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
 		
-	<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
+	
+	<c:import url= "/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div> <!-- /container -->
 
 </body>

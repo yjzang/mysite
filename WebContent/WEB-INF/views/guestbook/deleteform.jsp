@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	String no = request.getParameter("no");
-	String result = request.getParameter("result");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +18,8 @@
 	<div id="container">
 		
 	
-			<jsp:include page= "/WEB-INF/views/includes/header.jsp"></jsp:include>
-			<jsp:include page= "/WEB-INF/views/includes/navigation.jsp"></jsp:include>
+		<c:import url= "/WEB-INF/views/includes/header.jsp"></c:import>
+		<c:import url= "/WEB-INF/views/includes/navigation.jsp"></c:import>
 	
 		
 		<div id="wrapper">
@@ -30,16 +28,18 @@
 					
 					<form method="post" action="/mysite/guest?cmd=delete">
 						
-					 	<input type="hidden" name="no" value=<%=no%>>
+					 	<input type="hidden" name="no" value="${param.no}">>
 						<label>비밀번호</label>
 						<input type="password" name="password" value="">
 						<input type="submit" value="확인">
 					</form>
-						<% if("fail".equals(result)){%>		
-								<P class="alert">비밀번호가 틀렸습니다. 다시입력해주세요</P>
-								<%} else if("empty".equals(result)){%>
-								<P class="alert">비밀번호를 입력해 주세요</P>
-								<%} %>
+						<c:if test="%{param.result=='fail'}">
+							<P class="alert">비밀번호가 틀렸습니다. 다시입력해주세요</P>
+						</c:if>
+						<c:if test="%{param.result=='empty'}">
+							<P class="alert">비밀번호를 입력해 주세요</P>
+						</c:if>
+							
 								
 					<br><br>		
 					<a href="/mysite/guest">방명록 리스트</a>
@@ -48,7 +48,7 @@
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
 		
-		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url= "/WEB-INF/views/includes/footer.jsp"></c:import>
 
 		
 	</div> <!-- /container -->

@@ -16,10 +16,10 @@ public class BoardDAO {
 	
 	public ArrayList<BoardVO> getlist() {
 		
-		System.out.println("getlist");
+
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
-		String sql = "select * from board_tbl";
+		String sql = "select b.*,u.name from board_tbl b,user_tbl u where b.user_no=u.no order by b.no desc";
 		Statement stmt = null;
 		ResultSet rs = null;
 		ArrayList<BoardVO> list = null;
@@ -37,6 +37,7 @@ public class BoardDAO {
 				vo.setHit(rs.getString(4));
 				vo.setDate(rs.getString(5));
 				vo.setUser_no(rs.getString(6));
+				vo.setName(rs.getString(7));
 				list.add(vo);
 			}
 			
@@ -51,35 +52,8 @@ public class BoardDAO {
 		
 		
 	}
-	public String getName(String user_no) {
-		
-		System.out.println("getlist");
-		ConnectionManager mgr = new ConnectionManager();
-		Connection con = mgr.getConnetion();
-		String sql = "select user_tbl.name from board_tbl,user_tbl where user_no=user_tbl.no and user_no="+user_no;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String name =null;
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				name = rs.getString(1);
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			mgr.connectClose(con, stmt, rs);
-		}
-		
-		return name;
-		
-		
-	}
 	public BoardVO getText(String no) {
-		System.out.println("getText");
+
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "select * from board_tbl where no="+no;
@@ -114,7 +88,7 @@ public class BoardDAO {
 	}
 	
 	public BoardVO getText(String no,String user_no) {
-		System.out.println("getText");
+
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "select * from board_tbl where no=? and user_no=?";
@@ -152,7 +126,7 @@ public class BoardDAO {
 	
 	
 	public void update(String no,String title,String content) {
-		System.out.println("update");
+		
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "update board_tbl set title=?, content=? where no="+no;
@@ -176,15 +150,15 @@ public class BoardDAO {
 		
 		
 	}
-	public void upHit(String no,String hit) {
-		System.out.println("update");
+	public void upHit(String no,int hit) {
+
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "update board_tbl set hit=? where no="+no;
 		PreparedStatement pstmt = null;
 		try {
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, hit);
+			pstmt.setInt(1, hit);
 			int affectedCount = pstmt.executeUpdate();
 			
 			if (affectedCount>0) {
@@ -203,7 +177,6 @@ public class BoardDAO {
 	
 	public void insert(String title,String content,String user_no) {
 
-		
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
 		String sql = "insert into board_tbl values(seq_board_no.nextval,?,?,'0',sysdate,?)";
@@ -232,7 +205,7 @@ public class BoardDAO {
 	}
 	
 	public boolean delete(String no, String user_no) {
-		System.out.println("delete dao");
+		
 		boolean flag = false;
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
@@ -261,6 +234,43 @@ public class BoardDAO {
 		
 		return flag;
 		
+	} public ArrayList<BoardVO> searchList(String kwd) {
+		System.out.println(kwd);
+		ConnectionManager mgr = new ConnectionManager();
+		Connection con = mgr.getConnetion();
+		String sql = "select b.*,u.name from board_tbl b,user_tbl u where b.user_no=u.no and b.title like '%"+kwd+"%'";
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<BoardVO> list = null;
+		BoardVO vo = null;
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+			list= new ArrayList<BoardVO>();
+			while(rs.next()) {
+				
+				vo= new BoardVO();
+				vo.setNo(rs.getString(1));
+				vo.setTitle(rs.getString(2));
+				vo.setContent(rs.getString(3));
+				vo.setHit(rs.getString(4));
+				vo.setDate(rs.getString(5));
+				vo.setUser_no(rs.getString(6));
+				vo.setName(rs.getString(7));
+				list.add(vo);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mgr.connectClose(con, stmt, rs);
+		}
+		
+		return list;
+		
 	}
+	
 	
 }

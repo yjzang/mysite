@@ -1,15 +1,7 @@
-<%@page import="com.javaex.vo.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-	
-	BoardVO vo = (BoardVO)request.getAttribute("vo");
-	int hit = Integer.parseInt(vo.getHit());
-	hit++;
-	vo.setHit(String.valueOf(hit));
-	String result = request.getParameter("result");
-	
-%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,16 +17,20 @@
 	
 </style>
 
+<script type="text/javascript">
+	<c:if test="${param.result=='fail_mod'}">
+		alert("글쓴이만 수정이 가능합니다.");
+	</c:if>
+	
+</script>
 
-<% if("fail_mod".equals(result)){%>		
-								<script type="text/javascript">alert("글쓴이만 수정이 가능합니다.");</script> 
-								<%} %>
 
 <body>
 	<div id="container">
 
-		<jsp:include page= "/WEB-INF/views/includes/header.jsp"></jsp:include>
-		<jsp:include page= "/WEB-INF/views/includes/navigation.jsp"></jsp:include>
+		<c:import url= "/WEB-INF/views/includes/header.jsp"></c:import>
+		<c:import url= "/WEB-INF/views/includes/navigation.jsp"></c:import>
+
 
 		
 		<div id="content">
@@ -45,24 +41,24 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td><%=vo.getTitle() %></td>
+						<td>${requestScope.vo.title}</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								<pre id="content"><%=vo.getContent() %></pre>
+								<pre id="content">${requestScope.vo.content}</pre>
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/mysite/board?cmd=hit&hit=<%=hit%>&no=<%=vo.getNo()%>">글목록</a>
-					<a href="/mysite/board?cmd=modifyform&no=<%=vo.getNo()%>">글수정</a>
+					<a href="/mysite/board?no=${requestScope.vo.no}">글목록</a>
+					<a href="/mysite/board?cmd=modifyform&no=${requestScope.vo.no}">글수정</a>
 				</div>
 			</div>
 		</div>
 	</div>
-		<jsp:include page= "/WEB-INF/views/includes/footer.jsp"></jsp:include>
+			<c:import url= "/WEB-INF/views/includes/footer.jsp"></c:import>
 </body>
 </html>
