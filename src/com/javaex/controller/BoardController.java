@@ -195,7 +195,7 @@ public class BoardController extends HttpServlet {
 				url ="/WEB-INF/views/board/list.jsp?result=search_fail";
 			} else {
 				request.setAttribute("list", list);
-				url ="/WEB-INF/views/board/list.jsp?page=1&num=0&page_p=1";
+				url ="/WEB-INF/views/board/list.jsp" ;
 			}
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);

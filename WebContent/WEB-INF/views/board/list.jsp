@@ -57,11 +57,11 @@
 					</tr>		
 			
 			<c:set var="num" value="${param.num==null?0:param.num}"> </c:set>
+			<c:set var="p_check" value="${param.p_check==null?1:param.p_check}"> </c:set>
 			<c:set var="page" value="${param.page==null?1:param.page}"> </c:set>
-			<c:set var="page_idx" value="${param.page_idx==null?1:param.page_idx}"> </c:set>
 			<c:out value="${num}" />
+			<c:out value="${p_check}" />
 			<c:out value="${page}" />
-			<c:out value="${page_idx}" />
 			<c:out value="${fn:length(list)}" />
 			
 			<c:forEach items="${list}"	var="vo" begin="${num}" end="${list_size<(num+9)? list_size:(num+9)}" >
@@ -81,13 +81,13 @@
 				
 				<div class="pager">
 					<ul>
-						<li><a href="/mysite/board?page_idx=${page_idx<6?page_idx:page_idx-5}&page=${page_idx<6?page:5}&num=${page_idx<6?num:10*(page_idx-1-1)}" >◀</a></li>
-						<li class = ${(page%5)==1? "selected":""}><a href="/mysite/board?page=1&num=${10*(page_idx-1)}&page_idx=${page_idx}">${page_idx}</a></li>
-						<li class = ${(page%5)==2? "selected":""}><a href="/mysite/board?page=2&num=${10*(page_idx-1+1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+1?page_idx+1:""}</a></li>
-						<li class = ${(page%5)==3? "selected":""}><a href="/mysite/board?page=3&num=${10*(page_idx-1+2)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+2?page_idx+2:""}</a></li>
-						<li class = ${(page%5)==4? "selected":""}><a href="/mysite/board?page=4}&num=${10*(page_idx-1+3)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+3?page_idx+3:""}</a></li>
-						<li class = ${(page%5)==0? "selected":""}><a href="/mysite/board?page=5&num=${10*(page_idx-1+4)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+4?page_idx+4:""}</a></li>
-						<li><a href="/mysite/board?page_idx=${page_idx+4<(fn:length(list)/10)?page_idx+5:page_idx}&page=${page_idx+4<(fn:length(list)/10)?1:page}&num=${page_idx+4<(fn:length(list)/10)?10*(page_idx-1+5):num}">▶</a></li>
+						<li><a href="/mysite/board?page=${page<6?page:page-5}&p_check=${page<6?p_check:5}&num=${page<6?num:10*(page-1-1)}" >◀</a></li>
+						<li class = ${(p_check%5)==1? "selected":""}><a href="/mysite/board?p_check=1&num=${10*(page-1)}&page=${page}">${page}</a></li>
+						<li class = ${(p_check%5)==2? "selected":""}><a href="/mysite/board?p_check=2&num=${10*(page-1+1)}&page=${page}">${fn:length(list)/10>=page+1?page+1:""}</a></li>
+						<li class = ${(p_check%5)==3? "selected":""}><a href="/mysite/board?p_check=3&num=${10*(page-1+2)}&page=${page}">${fn:length(list)/10>=page+2?page+2:""}</a></li>
+						<li class = ${(p_check%5)==4? "selected":""}><a href="/mysite/board?p_check=4}&num=${10*(page-1+3)}&page=${page}">${fn:length(list)/10>=page+3?page+3:""}</a></li>
+						<li class = ${(p_check%5)==0? "selected":""}><a href="/mysite/board?p_check=5&num=${10*(page-1+4)}&page=${page}">${fn:length(list)/10>=page+4?page+4:""}</a></li>
+						<li><a href="/mysite/board?page=${page+4<(fn:length(list)/10)?page+5:page}&p_check=${page+4<(fn:length(list)/10)?1:p_check}&num=${page+4<(fn:length(list)/10)?10*(page-1+5):num}">▶</a></li>
 					</ul>
 				</div>				
 				<div class="bottom">
