@@ -22,7 +22,7 @@
 			<div id="content">
 				<div id="site-introduction" style="margin : 0 auto;" text-align : center;>
 						<img style="width: 300px" id="profile" src="/mysite/assets/images/profile2.png" />
-						<h2 id="main">  <br>&emsp;&emsp;&emsp;&emsp; 환영합니다 ,<br/> <br>&emsp; &emsp;&emsp;&emsp;&emsp;&emsp; &emsp;<br/></h2>
+						<h2 id="main">  <br>&emsp;&emsp;&emsp;&emsp; 환영합니다 ,<br/> <br>&emsp; &emsp;&emsp;&emsp;&emsp;&emsp; &emsp; ${authVO.name==null?"손":(authVO.name)}님 <br/></h2>
 					
 						
 						<br>

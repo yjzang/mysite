@@ -81,13 +81,13 @@
 				
 				<div class="pager">
 					<ul>
-						<li><a href="/mysite/board?page_idx=${page_idx<6?page_idx:page_idx-5}&page=${page_idx<6?page:page_idx-1}&num=${page_idx<6?num:10*(page_idx-1-1)}" >◀</a></li>
-						<li class = ${(page%5)==1? "selected":""}><a href="/mysite/board?page=${page_idx}&num=${10*(page_idx-1)}&page_idx=${page_idx}">${page_idx}</a></li>
-						<li class = ${(page%5)==2? "selected":""}><a href="/mysite/board?page=${page_idx+1}&num=${10*(page_idx+1-1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+1?page_idx+1:""}</a></li>
-						<li class = ${(page%5)==3? "selected":""}><a href="/mysite/board?page=${page_idx+2}&num=${10*(page_idx+2-1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+2?page_idx+2:""}</a></li>
-						<li class = ${(page%5)==4? "selected":""}><a href="/mysite/board?page=${page_idx+3}&num=${10*(page_idx+3-1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+3?page_idx+3:""}</a></li>
-						<li class = ${(page%5)==0? "selected":""}><a href="/mysite/board?page=${page_idx+4}&num=${10*(page_idx+4-1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+4?page_idx+4:""}</a></li>
-						<li><a href="/mysite/board?page_idx=${page_idx+5>(fn:length(list)/10)?page_idx:page_idx+5}&page=${page_idx+5>(fn:length(list)/10)?page:page_idx+5}&num=${page_idx+5>(fn:length(list)/10)?num:10*(page_idx+5-1)}">▶</a></li>
+						<li><a href="/mysite/board?page_idx=${page_idx<6?page_idx:page_idx-5}&page=${page_idx<6?page:5}&num=${page_idx<6?num:10*(page_idx-1-1)}" >◀</a></li>
+						<li class = ${(page%5)==1? "selected":""}><a href="/mysite/board?page=1&num=${10*(page_idx-1)}&page_idx=${page_idx}">${page_idx}</a></li>
+						<li class = ${(page%5)==2? "selected":""}><a href="/mysite/board?page=2&num=${10*(page_idx-1+1)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+1?page_idx+1:""}</a></li>
+						<li class = ${(page%5)==3? "selected":""}><a href="/mysite/board?page=3&num=${10*(page_idx-1+2)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+2?page_idx+2:""}</a></li>
+						<li class = ${(page%5)==4? "selected":""}><a href="/mysite/board?page=4}&num=${10*(page_idx-1+3)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+3?page_idx+3:""}</a></li>
+						<li class = ${(page%5)==0? "selected":""}><a href="/mysite/board?page=5&num=${10*(page_idx-1+4)}&page_idx=${page_idx}">${fn:length(list)/10>=page_idx+4?page_idx+4:""}</a></li>
+						<li><a href="/mysite/board?page_idx=${page_idx+4<(fn:length(list)/10)?page_idx+5:page_idx}&page=${page_idx+4<(fn:length(list)/10)?1:page}&num=${page_idx+4<(fn:length(list)/10)?10*(page_idx-1+5):num}">▶</a></li>
 					</ul>
 				</div>				
 				<div class="bottom">
