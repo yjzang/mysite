@@ -27,7 +27,10 @@
 		alert("해당 글이 삭제되었습니다.");
 	</c:if>
 	<c:if test="${param.result=='search_fail'}">
-		alert("찾으시는 글이 없습니다.");
+		alert("찾는 글이 없습니다.");
+	</c:if>
+	<c:if test="${param.result=='search_empty'}">
+		alert("검색어를 입력하세요");
 	</c:if>
 </script>							 
 			
@@ -55,20 +58,25 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>		
+	
+	
 			
-			<c:set var="num" value="${param.num==null?0:param.num}"> </c:set>
 			<c:set var="p_check" value="${param.p_check==null?1:param.p_check}"> </c:set>
 			<c:set var="page" value="${param.page==null?1:param.page}"> </c:set>
-			<c:out value="${num}" />
+			<c:set var="count" value="${param.count==null?1:param.count}"> </c:set>
+			<c:set var="state" value="${param.state==null?'':param.state}"> </c:set>
+			<c:set var="kwd" value="${param.state==null?'':param.kwd}"> </c:set>
+			
 			<c:out value="${p_check}" />
 			<c:out value="${page}" />
+			<c:out value="${count}" />
 			<c:out value="${fn:length(list)}" />
 			
-			<c:forEach items="${list}"	var="vo" begin="${num}" end="${list_size<(num+9)? list_size:(num+9)}" >
+			<c:forEach items="${list}"	var="vo" begin="0" end="${fn:length(list)}" >
 				
 					<tr>
 						<td>${vo.no}</td>
-						<td><a href="/mysite/board?cmd=viewText&no=${vo.no}&hit=${vo.hit}"> ${vo.title}</a></td>
+						<td><a href="/mysite/board?cmd=viewText&no=${vo.no}&hit=${vo.hit}&p_check=${p_check}&begin=${begin}&end=${end}&page=${page}&state=${state}&kwd=${kwd}"> ${vo.title}</a></td>
 						<td>${vo.name}</td>
 						<td>${vo.hit}</td>
 						<td>${vo.date}</td>
@@ -81,13 +89,14 @@
 				
 				<div class="pager">
 					<ul>
-						<li><a href="/mysite/board?page=${page<6?page:page-5}&p_check=${page<6?p_check:5}&num=${page<6?num:10*(page-1-1)}" >◀</a></li>
-						<li class = ${(p_check%5)==1? "selected":""}><a href="/mysite/board?p_check=1&num=${10*(page-1)}&page=${page}">${page}</a></li>
-						<li class = ${(p_check%5)==2? "selected":""}><a href="/mysite/board?p_check=2&num=${10*(page-1+1)}&page=${page}">${fn:length(list)/10>=page+1?page+1:""}</a></li>
-						<li class = ${(p_check%5)==3? "selected":""}><a href="/mysite/board?p_check=3&num=${10*(page-1+2)}&page=${page}">${fn:length(list)/10>=page+2?page+2:""}</a></li>
-						<li class = ${(p_check%5)==4? "selected":""}><a href="/mysite/board?p_check=4}&num=${10*(page-1+3)}&page=${page}">${fn:length(list)/10>=page+3?page+3:""}</a></li>
-						<li class = ${(p_check%5)==0? "selected":""}><a href="/mysite/board?p_check=5&num=${10*(page-1+4)}&page=${page}">${fn:length(list)/10>=page+4?page+4:""}</a></li>
-						<li><a href="/mysite/board?page=${page+4<(fn:length(list)/10)?page+5:page}&p_check=${page+4<(fn:length(list)/10)?1:p_check}&num=${page+4<(fn:length(list)/10)?10*(page-1+5):num}">▶</a></li>
+						<li><a href="/mysite/board?page=${page<6?page:page-5}&p_check=${page<6?p_check:5}&begin=${page<6?begin:(page-1)*10-9}&end=${page<6?end:(page-1)*10}" >◀</a></li>
+						<li class = ${p_check==1? "selected":""}><a href="/mysite/board?p_check=1&begin=${(page-1)*10+1}&end=${(page-1)*10+10}&page=${page}">${page}</a></li>
+						<li class = ${p_check==2? "selected":""}><a href="/mysite/board?p_check=2&begin=${(page-1)*10+11}&end=${(page-1)*10+20}&page=${page}">${count/10>=page+1?page+1:""}</a></li>
+						<li class = ${p_check==3? "selected":""}><a href="/mysite/board?p_check=3&begin=${(page-1)*10+21}&end=${(page-1)*10+30}&page=${page}">${count/10>=page+2?page+2:""}</a></li>
+						<li class = ${p_check==4? "selected":""}><a href="/mysite/board?p_check=4&begin=${(page-1)*10+31}&end=${(page-1)*10+40}&page=${page}">${count/10>=page+3?page+3:""}</a></li>
+						<li class = ${p_check==5? "selected":""}><a href="/mysite/board?p_check=5&begin=${(page-1)*10+41}&end=${(page-1)*10+50}&page=${page}">${count/10>=page+4?page+4:""}</a></li>
+						<li><a href="/mysite/board?page=${page+4<(count/10)?page+5:page}&p_check=${page+4<(count/10)?1:p_check}&begin=${page+4<(count/10)?(page-1)*10+51:begin}&end=${page+4<(count/10)?(page-1)*10+60:end}">▶</a></li>
+						
 					</ul>
 				</div>				
 				<div class="bottom">

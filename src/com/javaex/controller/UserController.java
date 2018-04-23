@@ -86,9 +86,29 @@ public class UserController extends HttpServlet {
 				HttpSession session = request.getSession();
 				System.out.println(vo.getName());
 				session.setAttribute("authVO", vo);
-
+				String state= request.getParameter("state");
+				String no= request.getParameter("no");
+				
+				if("mod_logoff".equals(state)) {
+					
+					RequestDispatcher rd = request.getRequestDispatcher("./board?cmd=modifyform&no="+no); 
+					rd.forward(request, resp);
+					
+				} else if("write_logoff".equals(state)) {
+					
+					RequestDispatcher rd = request.getRequestDispatcher("./board?cmd=writeform"); 
+					rd.forward(request, resp);
+					
+				} else if("del_logoff".equals(state)) {
+					
+					RequestDispatcher rd = request.getRequestDispatcher("./board"); 
+					rd.forward(request, resp);
+					
+				} else {
+				
 				resp.sendRedirect("/mysite/main");
-
+				
+				}
 			}
 
 		} else if (cmd.equals("modifyform")) {

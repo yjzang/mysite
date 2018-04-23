@@ -9,8 +9,7 @@ public class BoardVO {
 	String date;
 	String user_no;
 	String name;
-	
-	
+	String rnum;
 	public String getNo() {
 		return no;
 	}
@@ -52,6 +51,12 @@ public class BoardVO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getRnum() {
+		return rnum;
+	}
+	public void setRnum(String rnum) {
+		this.rnum = rnum;
 	}
 	
 	

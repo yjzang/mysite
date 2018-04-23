@@ -39,6 +39,8 @@ public class BoardController extends HttpServlet {
 			
 			String no = request.getParameter("no");
 			String hit = request.getParameter("hit");
+			String state = request.getParameter("state");
+			String kwd = request.getParameter("kwd");
 			
 			if(hit==null) {
 				
@@ -52,6 +54,9 @@ public class BoardController extends HttpServlet {
 			
 			BoardVO vo = dao.getText(no);
 			request.setAttribute("vo", vo);
+			request.setAttribute("state", state);
+			request.setAttribute("kwd", kwd);
+			
 			url = "/WEB-INF/views/board/view.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
@@ -62,7 +67,8 @@ public class BoardController extends HttpServlet {
 			
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform&state=logoff";
+				String no = request.getParameter("no");
+				url = "./user?cmd=loginform&state=mod_logoff&no="+no;
 				
 				
 			}	else {
@@ -106,9 +112,10 @@ public class BoardController extends HttpServlet {
 			
 			
 			UserVO authVO = (UserVO) session.getAttribute("authVO");
+			
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform&state=logoff";
+				url = "./user?cmd=loginform&state=write_logoff";
 				
 				
 			}	else {
@@ -163,7 +170,7 @@ public class BoardController extends HttpServlet {
 			
 			if(authVO==null) {
 				
-				url = "./user?cmd=loginform&state=logoff";
+				url = "./user?cmd=loginform&state=del_logoff";
 				
 				
 			} else {
@@ -192,11 +199,18 @@ public class BoardController extends HttpServlet {
 			String kwd = request.getParameter("kwd");
 			list = dao.searchList(kwd);
 			if(list.size()==0) {
+				
 				url ="/WEB-INF/views/board/list.jsp?result=search_fail";
+		
+			} else if("".equals(kwd)) {
+				
+				url ="/WEB-INF/views/board/list.jsp?result=search_empty";
+				
 			} else {
 				request.setAttribute("list", list);
-				url ="/WEB-INF/views/board/list.jsp" ;
+				url ="/WEB-INF/views/board/list.jsp?state=search&kwd="+kwd ;
 			}
+			
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
 			
@@ -204,13 +218,20 @@ public class BoardController extends HttpServlet {
 		}	else {
 			
 			ArrayList<BoardVO> list = null;
-			list = dao.getlist();
+			String begin = request.getParameter("begin");
+			String end = request.getParameter("end");
+			begin = begin==null?"1":begin;
+			end = end==null?"10":end;
+			list = dao.getlist(begin,end);
+			String count = dao.getlist_total();
 			
 			if(list.size()>0) {
 				request.setAttribute("list", list);
+				request.setAttribute("begin", begin);
+				request.setAttribute("end", end);
 			} 
 			
-			url ="/WEB-INF/views/board/list.jsp";
+			url ="/WEB-INF/views/board/list.jsp?count="+count;
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, resp);
 			

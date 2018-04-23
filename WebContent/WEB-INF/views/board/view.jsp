@@ -41,20 +41,30 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>${requestScope.vo.title}</td>
+						<td>${vo.title}</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								<pre id="content">${requestScope.vo.content}</pre>
+								<pre id="content">${vo.content}</pre>
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="/mysite/board?no=${requestScope.vo.no}">글목록</a>
-					<a href="/mysite/board?cmd=modifyform&no=${requestScope.vo.no}">글수정</a>
+				<c:if test="${state=='search'}">
+				
+					<a href="/mysite/board?cmd=search&kwd=${kwd}">글목록</a>
+				
+				</c:if>
+				<c:if test="${state==''||state==null}">
+				
+						<a href="/mysite/board?p_check=${param.p_check}&begin=${param.begin}&end=${param.end}&page=${param.page}">글목록</a>
+				
+				</c:if>
+				
+					<a href="/mysite/board?cmd=modifyform&no=${vo.no}">글수정</a>
 				</div>
 			</div>
 		</div>

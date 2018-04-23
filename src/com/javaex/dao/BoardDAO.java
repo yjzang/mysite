@@ -14,20 +14,24 @@ import com.javaex.vo.UserVO;
 public class BoardDAO {
 
 	
-	public ArrayList<BoardVO> getlist() {
+	public ArrayList<BoardVO> getlist(String begin,String end) {
 		
 
 		ConnectionManager mgr = new ConnectionManager();
 		Connection con = mgr.getConnetion();
-		String sql = "select b.*,u.name from board_tbl b,user_tbl u where b.user_no=u.no order by b.no desc";
-		Statement stmt = null;
+		String sql = "select * from (select tbl.*,rownum rnum from (select b.*,u.name from board_tbl b,user_tbl u where b.user_no=u.no order by b.no desc) tbl) where rnum between ? and ? ";
+		
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<BoardVO> list = null;
 		BoardVO vo = null;
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, begin);
+			pstmt.setString(2, end);
+			
 			list= new  ArrayList<BoardVO>();
-			rs = stmt.executeQuery(sql);
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				vo= new BoardVO();
@@ -38,6 +42,8 @@ public class BoardDAO {
 				vo.setDate(rs.getString(5));
 				vo.setUser_no(rs.getString(6));
 				vo.setName(rs.getString(7));
+				vo.setRnum(rs.getString(8));
+				
 				list.add(vo);
 			}
 			
@@ -45,10 +51,42 @@ public class BoardDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			mgr.connectClose(con, stmt, rs);
+			mgr.connectClose(con, pstmt, rs);
 		}
 		
 		return list;
+		
+		
+	}
+	
+	public String getlist_total() {
+		
+
+		ConnectionManager mgr = new ConnectionManager();
+		Connection con = mgr.getConnetion();
+		String sql = "select count(*) from board_tbl";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String count = null;
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+			
+				count = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			mgr.connectClose(con, pstmt, rs);
+		}
+		
+		return count;
 		
 		
 	}

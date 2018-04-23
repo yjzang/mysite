@@ -16,7 +16,7 @@
 </style>
 
 <script type="text/javascript">
-		<c:if test="${param.state=='logoff'}">
+		<c:if test="${param.state=='write_logoff'||param.state=='mod_logoff'||param.state=='del_logoff'}">
 			alert("로그인이 필요한 서비스입니다.");
 		</c:if>
 </script>
@@ -36,7 +36,9 @@
 					
 					<form id="login-form" name="loginform" method="post" action="/mysite/user?cmd=login">
 					
-						<input type="hidden" name="a" value="login" /> 
+						<input type="hidden" name="state" value=${param.state==null?"":param.state} /> 
+						<input type="hidden" name="no" value=${param.no==null?"":param.no} /> 
+						
 						
 						<label class="block-label" for="email">이메일</label> 
 						<input id="email" name="email" type="text" value=""> 
